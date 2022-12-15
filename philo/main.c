@@ -14,5 +14,14 @@
 
 t_i32	main(t_i32 ac, t_i8 **av)
 {
-	
+	t_db	db;
+
+	memset(&db, 0, sizeof(db));
+	if (ac < 5 || ac > 6 || init(&db, ac, av))
+	{
+		printf("Invalid Arguments.\n");
+		return (-1);
+	}
+	exec(&db);
+	return (0);
 }

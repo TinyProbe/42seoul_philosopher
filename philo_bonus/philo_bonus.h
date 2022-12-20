@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkong <tkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/08 19:10:31 by tkong             #+#    #+#             */
-/*   Updated: 2022/12/08 19:11:54 by tkong            ###   ########.fr       */
+/*   Created: 2022/12/21 05:36:51 by tkong             #+#    #+#             */
+/*   Updated: 2022/12/21 05:37:11 by tkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 
 # define MAX_THREAD	1000
 
@@ -68,10 +68,12 @@ typedef struct s_philo
 	t_u64			last_change;
 	t_u64			*last_eat;
 	t_i32			*created;
+	t_i32			*end;
 	pthread_mutex_t	*last_eat_mutex;
 	pthread_mutex_t	*left_mutex;
 	pthread_mutex_t	*right_mutex;
 	pthread_mutex_t	*created_mutex;
+	pthread_mutex_t	*end_mutex;
 }	t_philo;
 
 typedef struct s_db
@@ -80,9 +82,11 @@ typedef struct s_db
 	t_philo			philo[MAX_THREAD];
 	t_u64			last_eat[MAX_THREAD];
 	t_i32			created;
+	t_i32			end;
 	pthread_mutex_t	fork_mutex[MAX_THREAD];
 	pthread_mutex_t	last_eat_mutex[MAX_THREAD];
 	pthread_mutex_t	created_mutex;
+	pthread_mutex_t	end_mutex;
 }	t_db;
 
 t_bool	ft_isdigit(t_i32 c);

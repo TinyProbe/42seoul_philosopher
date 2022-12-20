@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkong <tkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/20 23:32:10 by tkong             #+#    #+#             */
-/*   Updated: 2022/12/20 23:32:21 by tkong            ###   ########.fr       */
+/*   Created: 2022/12/21 05:36:42 by tkong             #+#    #+#             */
+/*   Updated: 2022/12/21 05:37:11 by tkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 static t_i32	check(t_i32 ac, t_i8 **av);
 static void		init_db(t_db *db);
@@ -62,10 +62,12 @@ static void	init_db(t_db *db)
 		db->philo[idx].last_change = db->common.start;
 		db->philo[idx].last_eat = db->last_eat + idx;
 		db->philo[idx].created = &(db->created);
+		db->philo[idx].end = &(db->end);
 		db->philo[idx].last_eat_mutex = db->last_eat_mutex + idx;
 		db->philo[idx].left_mutex = db->fork_mutex + idx;
 		db->philo[idx].right_mutex
 			= db->fork_mutex + ((idx + 1) % db->common.nop);
 		db->philo[idx].created_mutex = &(db->created_mutex);
+		db->philo[idx].end_mutex = &(db->end_mutex);
 	}
 }

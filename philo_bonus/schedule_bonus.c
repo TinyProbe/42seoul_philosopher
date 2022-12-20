@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   schedule.c                                         :+:      :+:    :+:   */
+/*   schedule_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkong <tkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/20 23:32:13 by tkong             #+#    #+#             */
-/*   Updated: 2022/12/20 23:32:21 by tkong            ###   ########.fr       */
+/*   Created: 2022/12/21 05:36:54 by tkong             #+#    #+#             */
+/*   Updated: 2022/12/21 05:37:11 by tkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 static void		schedule_loop(t_philo *philo);
 static t_i32	die_check(t_philo *philo);
@@ -68,13 +68,13 @@ static void	schedule_loop(t_philo *philo)
 
 static t_i32	die_check(t_philo *philo)
 {
-	pthread_mutex_lock(philo->created_mutex);
-	if (*(philo->created) < 1 || philo->eat_cnt == philo->common.limit)
+	pthread_mutex_lock(philo->end_mutex);
+	if (*(philo->end) < 0 || philo->eat_cnt == philo->common.limit)
 	{
-		--*(philo->created);
-		pthread_mutex_unlock(philo->created_mutex);
+		++*(philo->end);
+		pthread_mutex_unlock(philo->end_mutex);
 		return (-1);
 	}
-	pthread_mutex_unlock(philo->created_mutex);
+	pthread_mutex_unlock(philo->end_mutex);
 	return (0);
 }

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   exec_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkong <tkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/20 23:32:09 by tkong             #+#    #+#             */
-/*   Updated: 2022/12/20 23:32:21 by tkong            ###   ########.fr       */
+/*   Created: 2022/12/21 05:36:39 by tkong             #+#    #+#             */
+/*   Updated: 2022/12/21 05:37:11 by tkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 static void	init_resource(t_db *db);
 static void	delete_resource(t_db *db);
@@ -33,6 +33,7 @@ static void	init_resource(t_db *db)
 		pthread_mutex_init(db->fork_mutex + idx, NULL);
 	}
 	pthread_mutex_init(&(db->created_mutex), NULL);
+	pthread_mutex_init(&(db->end_mutex), NULL);
 	idx = -1;
 	while (++idx < db->common.nop)
 	{
@@ -58,4 +59,5 @@ static void	delete_resource(t_db *db)
 		pthread_mutex_destroy(db->fork_mutex + idx);
 	}
 	pthread_mutex_destroy(&(db->created_mutex));
+	pthread_mutex_destroy(&(db->end_mutex));
 }

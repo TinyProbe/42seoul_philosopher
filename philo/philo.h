@@ -14,7 +14,6 @@
 # define PHILO_H
 
 # define MAX_THREAD	1000
-# define MAX_SHIFT	3
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -37,17 +36,17 @@ typedef unsigned long long	t_u64;
 typedef unsigned long int	t_usize;
 typedef char				t_bool;
 
+typedef struct timeval		t_timeval;
+
 # define TRUE	1
 # define FALSE	0
 
 typedef enum e_statecode
 {
-	S_THINK = 0,
-	S_EAT = S_THINK + 1,
-	S_SLEEP = S_EAT + 1,
+	S_THINK	= 0,
+	S_EAT	= S_THINK + 1,
+	S_SLEEP	= S_EAT + 1,
 }	t_statecode;
-
-typedef struct timeval	t_timeval;
 
 typedef struct s_common
 {
@@ -94,11 +93,10 @@ t_bool	ft_isdigit(t_i32 c);
 t_i32	ft_stoi(const t_i8 *s);
 t_f64	ft_min(t_f64 a, t_f64 b);
 t_f64	ft_max(t_f64 a, t_f64 b);
-t_u64	ft_usleep(t_u64 us);
-t_u64	ft_utime();
+void	ft_usleep(t_u64 us);
+t_u64	ft_utime(void);
 t_u64	ft_utom(t_u64 us);
 t_u64	ft_mtou(t_u64 ms);
-t_u64	ft_usync(t_u64 us);
 
 t_i32	init(t_db *db, t_i32 ac, t_i8 **av);
 void	exec(t_db *db);

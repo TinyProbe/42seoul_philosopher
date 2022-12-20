@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   loop.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tkong <tkong@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/20 23:32:11 by tkong             #+#    #+#             */
+/*   Updated: 2022/12/20 23:32:21 by tkong            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 static void	death_detect(t_db *db);
@@ -5,7 +17,7 @@ static void	death_detect(t_db *db);
 void	loop(t_db *db)
 {
 	db->common.start = ft_utime();
-	usleep(ft_usync(10000));
+	ft_usleep(10000);
 	while (TRUE)
 	{
 		death_detect(db);

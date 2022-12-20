@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   schedule.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tkong <tkong@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/20 23:32:13 by tkong             #+#    #+#             */
+/*   Updated: 2022/12/20 23:32:21 by tkong            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 static void		schedule_loop(t_philo *philo);
@@ -24,9 +36,9 @@ void	*schedule(void *ptr)
 	*(philo->last_eat) = philo->common.start;
 	pthread_mutex_unlock(philo->last_eat_mutex);
 	if (!(philo->num & 1))
-		usleep(ft_usync(10000));
+		ft_usleep(10000);
 	else if (philo->num == philo->common.nop)
-		usleep(ft_usync(20000));
+		ft_usleep(20000);
 	schedule_loop(philo);
 	return (NULL);
 }

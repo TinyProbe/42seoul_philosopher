@@ -24,7 +24,7 @@ SRC = main.c\
 INC = philo.h
 
 $(NAME): $(SRC) $(INC) Makefile
-	cc -Wall -Wextra -Werror -g3 -fsanitize=thread -pthread $(SRC) -o $(NAME)
+	cc -Wall -Wextra -Werror -pthread $(SRC) -o $(NAME)
 
 all: $(NAME)
 

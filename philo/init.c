@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tkong <tkong@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/20 23:32:10 by tkong             #+#    #+#             */
+/*   Updated: 2022/12/20 23:32:21 by tkong            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 static t_i32	check(t_i32 ac, t_i8 **av);
@@ -53,7 +65,8 @@ static void	init_db(t_db *db)
 		db->philo[idx].end = &(db->end);
 		db->philo[idx].last_eat_mutex = db->last_eat_mutex + idx;
 		db->philo[idx].left_mutex = db->fork_mutex + idx;
-		db->philo[idx].right_mutex = db->fork_mutex + ((idx + 1) % db->common.nop);
+		db->philo[idx].right_mutex
+			= db->fork_mutex + ((idx + 1) % db->common.nop);
 		db->philo[idx].created_mutex = &(db->created_mutex);
 		db->philo[idx].end_mutex = &(db->end_mutex);
 	}

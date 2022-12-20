@@ -14,6 +14,7 @@
 # define PHILO_H
 
 # define MAX_THREAD	1000
+# define MAX_SHIFT	3
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -39,93 +40,76 @@ typedef char				t_bool;
 # define TRUE	1
 # define FALSE	0
 
-enum e_state
+typedef enum e_statecode
 {
 	S_THINK = 0,
-	S_EAT = 1,
-	S_SLEEP = 2,
-};
-
-enum e_event
-{
-	E_LFORK = 0,
-	E_RFORK = 1,
-	E_EAT = 2,
-	E_THINK = 3,
-	E_SLEEP = 4,
-	E_DIE = 5,
-};
+	S_EAT = S_THINK + 1,
+	S_SLEEP = S_EAT + 1,
+}	t_statecode;
 
 typedef struct timeval	t_timeval;
 
-typedef struct s_node
-{
-	struct s_node	*left;
-	struct s_node	*right;
-	void			*data;
-}	t_node;
-
-typedef struct s_event
-{
-	t_u64	time;
-	t_i32	philo_num;
-	t_i32	event;
-}	t_event;
-
 typedef struct s_common
 {
-	t_u64			start_time;
+	t_u64			start;
 	t_i32			nop;
 	t_u64			life;
 	t_u64			eat;
 	t_u64			sleep;
 	t_i32			limit;
-	t_node			*event;
-	t_i32			event_cnt;
-	pthread_mutex_t	event_mutex;
 }	t_common;
 
 typedef struct s_philo
 {
 	pthread_t		thread;
+	t_common		common;
 	t_i32			num;
-	t_i32			state;
+	t_statecode		state;
+	t_i32			eat_cnt;
 	t_u64			last_change;
-	t_u64			last_eat;
-	t_bool			*left_fork;
-	t_bool			*right_fork;
+	t_u64			*last_eat;
+	t_i32			*created;
+	t_i32			*end;
+	pthread_mutex_t	*last_eat_mutex;
 	pthread_mutex_t	*left_mutex;
 	pthread_mutex_t	*right_mutex;
-	t_common		*common;
+	pthread_mutex_t	*created_mutex;
+	pthread_mutex_t	*end_mutex;
 }	t_philo;
 
 typedef struct s_db
 {
-	t_philo			philo[MAX_THREAD];
-	t_bool			fork[MAX_THREAD];
-	pthread_mutex_t	fork_mutex[MAX_THREAD];
-	t_i32			eat_cnt[MAX_THREAD];
 	t_common		common;
+	t_philo			philo[MAX_THREAD];
+	t_u64			last_eat[MAX_THREAD];
+	t_i32			created;
+	t_i32			end;
+	pthread_mutex_t	fork_mutex[MAX_THREAD];
+	pthread_mutex_t	last_eat_mutex[MAX_THREAD];
+	pthread_mutex_t	created_mutex;
+	pthread_mutex_t	end_mutex;
 }	t_db;
 
 t_bool	ft_isdigit(t_i32 c);
 t_i32	ft_stoi(const t_i8 *s);
+t_f64	ft_min(t_f64 a, t_f64 b);
+t_f64	ft_max(t_f64 a, t_f64 b);
 t_u64	ft_usleep(t_u64 us);
 t_u64	ft_utime();
 t_u64	ft_utom(t_u64 us);
 t_u64	ft_mtou(t_u64 ms);
-
-void	push_front(t_node **head, void *data);
-void	push_back(t_node **head, void *data);
-void	*pop_front(t_node **head);
-void	*pop_back(t_node **head);
-void	*front(t_node *head);
-void	*back(t_node *head);
+t_u64	ft_usync(t_u64 us);
 
 t_i32	init(t_db *db, t_i32 ac, t_i8 **av);
 void	exec(t_db *db);
 
-void	*schedule(void *db);
+void	*schedule(void *philo);
+void	thinking(t_philo *philo);
+void	eating(t_philo *philo);
+void	sleeping(t_philo *philo);
+
+void	shift_state(t_philo *philo);
+
 void	loop(t_db *db);
 
 #endif

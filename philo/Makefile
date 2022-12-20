@@ -12,12 +12,19 @@
 
 NAME = philo
 SRC = main.c\
+	init.c\
+	exec.c\
+	state.c\
+	schedule.c\
+	action.c\
+	loop.c\
 	util.c\
-	
+	util2.c\
+
 INC = philo.h
 
-$(NAME): $(SRC) $(INC)
-	cc -Wall -Wextra -Werror $(SRC) -o $(NAME)
+$(NAME): $(SRC) $(INC) Makefile
+	cc -Wall -Wextra -Werror -g3 -fsanitize=thread -pthread $(SRC) -o $(NAME)
 
 all: $(NAME)
 

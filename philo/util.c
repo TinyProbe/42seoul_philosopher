@@ -20,26 +20,16 @@ t_i32	ft_stoi(const t_i8 *s)
 	return (res * sign);
 }
 
-t_u64	ft_usleep(t_u64 us)
+t_f64	ft_min(t_f64 a, t_f64 b)
 {
-	static t_u64	target;
-	static t_u64	cur;
-
-	target = us + ft_utime();
-	while (TRUE)
-	{
-		cur = ft_utime();
-		if (target <= cur)
-			break ;
-		usleep(1);
-	}
-	return (cur - target);
+	if (a < b)
+		return (a);
+	return (b);
 }
 
-t_u64	ft_utime()
+t_f64	ft_max(t_f64 a, t_f64 b)
 {
-	static t_timeval	cur;
-
-	gettimeofday(&cur, NULL);
-	return (cur.tv_sec * 1000000ull + cur.tv_usec);
+	if (a > b)
+		return (a);
+	return (b);
 }

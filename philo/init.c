@@ -19,7 +19,7 @@ t_i32	init(t_db *db, t_i32 ac, t_i8 **av)
 {
 	if (check(ac, av))
 		return (-1);
-	db->common.start = ft_utime();
+	db->common.start = ft_utime() + 1000000;
 	db->common.nop = ft_stoi(av[1]);
 	db->common.life = ft_mtou(ft_stoi(av[2]));
 	db->common.eat = ft_mtou(ft_stoi(av[3]));
@@ -28,8 +28,9 @@ t_i32	init(t_db *db, t_i32 ac, t_i8 **av)
 	if (ac == 6)
 		db->common.limit = ft_stoi(av[5]);
 	if (db->common.nop == 0 || db->common.nop > MAX_THREAD
-		|| db->common.life < ft_mtou(60) || db->common.eat < ft_mtou(60)
-		|| db->common.sleep < ft_mtou(60))
+		|| db->common.life < ft_mtou(60) || db->common.life > ft_mtou(10000)
+		|| db->common.eat < ft_mtou(60) || db->common.eat > ft_mtou(10000)
+		|| db->common.sleep < ft_mtou(60) || db->common.sleep > ft_mtou(10000))
 		return (-1);
 	init_db(db);
 	return (0);

@@ -16,8 +16,8 @@ static void	death_detect(t_db *db);
 
 void	loop(t_db *db)
 {
-	db->common.start = ft_utime();
-	ft_usleep(10000);
+	while (db->common.start > ft_utime())
+		ft_usleep(1000);
 	while (TRUE)
 	{
 		death_detect(db);

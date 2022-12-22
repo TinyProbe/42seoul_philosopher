@@ -20,6 +20,9 @@
 # include <stdio.h>
 # include <string.h>
 # include <pthread.h>
+# include <semaphore.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
 # include <sys/time.h>
 
 typedef float				t_f32;
@@ -50,43 +53,22 @@ typedef enum e_statecode
 
 typedef struct s_common
 {
-	t_u64			start;
-	t_i32			nop;
-	t_u64			life;
-	t_u64			eat;
-	t_u64			sleep;
-	t_i32			limit;
+	t_u64	start;
+	t_i32	nop;
+	t_u64	life;
+	t_u64	eat;
+	t_u64	sleep;
+	t_i32	limit;
 }	t_common;
-
-typedef struct s_philo
-{
-	pthread_t		thread;
-	t_common		common;
-	t_i32			num;
-	t_statecode		state;
-	t_i32			eat_cnt;
-	t_u64			last_change;
-	t_u64			*last_eat;
-	t_i32			*created;
-	t_i32			*end;
-	pthread_mutex_t	*last_eat_mutex;
-	pthread_mutex_t	*left_mutex;
-	pthread_mutex_t	*right_mutex;
-	pthread_mutex_t	*created_mutex;
-	pthread_mutex_t	*end_mutex;
-}	t_philo;
 
 typedef struct s_db
 {
-	t_common		common;
-	t_philo			philo[MAX_THREAD];
-	t_u64			last_eat[MAX_THREAD];
-	t_i32			created;
-	t_i32			end;
-	pthread_mutex_t	fork_mutex[MAX_THREAD];
-	pthread_mutex_t	last_eat_mutex[MAX_THREAD];
-	pthread_mutex_t	created_mutex;
-	pthread_mutex_t	end_mutex;
+	t_common	common;
+	t_i32		num;
+	t_statecode	state;
+	t_i32		eat_cnt;
+	t_u64		last_change;
+	t_u64		last_eat;
 }	t_db;
 
 t_bool	ft_isdigit(t_i32 c);
@@ -101,12 +83,12 @@ t_u64	ft_mtou(t_u64 ms);
 t_i32	init(t_db *db, t_i32 ac, t_i8 **av);
 void	exec(t_db *db);
 
-void	*schedule(void *philo);
-void	thinking(t_philo *philo);
-void	eating(t_philo *philo);
-void	sleeping(t_philo *philo);
+void	schedule(t_db *db);
+void	thinking(t_db *db);
+void	eating(t_db *db);
+void	sleeping(t_db *db);
 
-void	shift_state(t_philo *philo);
+void	shift_state(t_db *db);
 
 void	loop(t_db *db);
 

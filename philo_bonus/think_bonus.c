@@ -24,13 +24,6 @@ void	thinking(t_db *db)
 		loop_(db, pid);
 	else
 		thinking_(db);
-	if (db->eat_cnt == db->common.limit)
-	{
-		sem_post(db->fork);
-		sem_post(db->fork);
-		sem_post(db->fork_access);
-		exit(0);
-	}
 }
 
 static void	thinking_(t_db *db)
@@ -64,5 +57,4 @@ static void	loop_(t_db *db, pid_t pid)
 	sem_post(db->print);
 	db->last_change = ft_utime();
 	db->last_eat = db->last_change;
-	db->eat_cnt++;
 }

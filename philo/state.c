@@ -20,12 +20,12 @@ void	shift_state(t_philo *philo)
 		philo->last_change = ft_utime();
 		*(philo->last_eat) = philo->last_change;
 		pthread_mutex_unlock(philo->last_eat_mutex);
-		philo->eat_cnt++;
 		philo->state = S_EAT;
 	}
 	else if (philo->state == S_EAT)
 	{
 		philo->last_change = ft_utime();
+		philo->eat_cnt++;
 		philo->state = S_SLEEP;
 	}
 	else if (philo->state == S_SLEEP)

@@ -24,6 +24,8 @@ void	eating(t_db *db)
 		loop_(db, pid);
 	else
 		eating_(db);
+	if (db->eat_cnt == db->common.limit)
+		exit(0);
 }
 
 static void	eating_(t_db *db)
@@ -56,4 +58,5 @@ static void	loop_(t_db *db, pid_t pid)
 		ft_utom(ft_utime() - db->common.start), db->num);
 	sem_post(db->print);
 	db->last_change = ft_utime();
+	db->eat_cnt++;
 }

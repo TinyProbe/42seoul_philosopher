@@ -12,31 +12,27 @@
 
 #include "philo_bonus.h"
 
-static void	waiting(t_db *db);
-
 void	exec(t_db *db)
 {
-	pid_t pid;
+	pid_t	pid;
+	t_i32	idx;
 
-	while (++(db->num) < db->common.nop)
+	db->fork = sem_open(
+			"/fork", O_CREAT | O_EXCL, S_IRWXG, db->common.nop);
+	db->fork_access = sem_open(
+			"/fork_access", O_CREAT | O_EXCL, S_IRWXG, db->common.nop / 2);
+	db->print = sem_open(
+			"/print", O_CREAT | O_EXCL, S_IRWXG, 1);
+	idx = 0;
+	while (db->num++ < db->common.nop)
 	{
 		pid = fork();
 		if (!pid)
-			break;
+			break ;
+		db->pid[idx++] = pid;
 	}
-	if (!pid)
-		schedule(db);
+	if (pid)
+		loop(db);
 	else
-		waiting(db);
-}
-
-static void	waiting(t_db *db)
-{
-	sem_t	*sem;
-
-	sem = sem_open("/fork", O_CREAT | O_EXCL, S_IRWXG, db->common.nop);
-	while (db->num--)
-		waitpid(-1, NULL, 0);
-	sem_close(sem);
-	sem_unlink("/fork");
+		schedule(db);
 }

@@ -20,8 +20,8 @@ t_i32	main(t_i32 ac, t_i8 **av)
 	if (ac < 5 || ac > 6 || init(&db, ac, av))
 	{
 		write(2, "Invalid Arguments.\n", 19);
-		return (-1);
+		exit(-1);
 	}
 	exec(&db);
-	return (0);
+	exit(0);
 }

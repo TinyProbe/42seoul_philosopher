@@ -13,7 +13,6 @@
 #include "philo_bonus.h"
 
 static t_i32	check(t_i32 ac, t_i8 **av);
-static void		init_db(t_db *db);
 
 t_i32	init(t_db *db, t_i32 ac, t_i8 **av)
 {
@@ -27,11 +26,13 @@ t_i32	init(t_db *db, t_i32 ac, t_i8 **av)
 	db->common.limit = -1;
 	if (ac == 6)
 		db->common.limit = ft_stoi(av[5]);
-	if (db->common.nop == 0 || db->common.nop > MAX_THREAD
+	if (db->common.nop == 0 || db->common.nop > MAX_PHILO
 		|| db->common.life < ft_mtou(60) || db->common.life > ft_mtou(10000)
 		|| db->common.eat < ft_mtou(60) || db->common.eat > ft_mtou(10000)
 		|| db->common.sleep < ft_mtou(60) || db->common.sleep > ft_mtou(10000))
 		return (-1);
+	db->last_change = db->common.start;
+	db->last_eat = db->common.start;
 	return (0);
 }
 

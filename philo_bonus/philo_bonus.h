@@ -13,14 +13,14 @@
 #ifndef PHILO_BONUS_H
 # define PHILO_BONUS_H
 
-# define MAX_THREAD	1000
+# define MAX_PHILO	1000
 
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <string.h>
-# include <pthread.h>
 # include <semaphore.h>
+# include <signal.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <sys/time.h>
@@ -69,6 +69,10 @@ typedef struct s_db
 	t_i32		eat_cnt;
 	t_u64		last_change;
 	t_u64		last_eat;
+	sem_t		*fork;
+	sem_t		*fork_access;
+	sem_t		*print;
+	pid_t		pid[MAX_PHILO];
 }	t_db;
 
 t_bool	ft_isdigit(t_i32 c);
@@ -87,8 +91,6 @@ void	schedule(t_db *db);
 void	thinking(t_db *db);
 void	eating(t_db *db);
 void	sleeping(t_db *db);
-
-void	shift_state(t_db *db);
 
 void	loop(t_db *db);
 

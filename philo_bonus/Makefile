@@ -14,9 +14,10 @@ NAME = philo_bonus
 SRC = main_bonus.c\
 	init_bonus.c\
 	exec_bonus.c\
-	state_bonus.c\
 	schedule_bonus.c\
-	action_bonus.c\
+	think_bonus.c\
+	eat_bonus.c\
+	sleep_bonus.c\
 	loop_bonus.c\
 	util_bonus.c\
 	util2_bonus.c\

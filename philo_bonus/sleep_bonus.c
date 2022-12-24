@@ -1,52 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   loop_bonus.c                                       :+:      :+:    :+:   */
+/*   sleep_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkong <tkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/24 09:40:37 by tkong             #+#    #+#             */
+/*   Created: 2022/12/24 09:40:39 by tkong             #+#    #+#             */
 /*   Updated: 2022/12/24 09:40:47 by tkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-static void	organize(t_db *db, t_i32 rtn);
+static void	sleeping_(t_db *db);
+static void	loop_(t_db *db, pid_t pid);
 
-void	loop(t_db *db)
+void	sleeping(t_db *db)
 {
-	t_i32	rtn;
+	pid_t	pid;
 
-	db->num--;
-	while (db->num--)
-	{
-		waitpid(-1, &rtn, 0);
-		if (rtn)
-		{
-			organize(db, rtn);
-			break ;
-		}
-	}
-	sem_close(db->fork);
-	sem_close(db->fork_access);
-	sem_close(db->print);
-	sem_unlink("/fork");
-	sem_unlink("/fork_access");
-	sem_unlink("/print");
+	pid = fork();
+	if (pid)
+		loop_(db, pid);
+	else
+		sleeping_(db);
 }
 
-static void	organize(t_db *db, t_i32 rtn)
+static void	sleeping_(t_db *db)
 {
-	t_i32	idx;
+	ft_usleep(db->common.sleep);
+	exit(0);
+}
 
-	idx = -1;
-	while (++idx < db->common.nop)
-		kill(db->pid[idx], SIGTERM);
-	while (db->num--)
-		waitpid(-1, NULL, 0);
+static void	loop_(t_db *db, pid_t pid)
+{
+	while (TRUE)
+	{
+		if (waitpid(pid, NULL, WNOHANG))
+			break ;
+		if (ft_utime() - db->last_eat > db->common.life)
+		{
+			kill(pid, SIGTERM);
+			exit(db->num);
+		}
+		ft_usleep(1000);
+	}
 	sem_wait(db->print);
-	printf("%llu %d died\n",
-		ft_utom(ft_utime() - db->common.start), rtn / 256);
+	printf("%llu %d is thinking\n",
+		ft_utom(ft_utime() - db->common.start), db->num);
 	sem_post(db->print);
+	db->last_change = ft_utime();
 }

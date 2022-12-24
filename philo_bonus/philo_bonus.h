@@ -44,13 +44,6 @@ typedef struct timeval		t_timeval;
 # define TRUE	1
 # define FALSE	0
 
-typedef enum e_statecode
-{
-	S_THINK	= 0,
-	S_EAT	= S_THINK + 1,
-	S_SLEEP	= S_EAT + 1,
-}	t_statecode;
-
 typedef struct s_common
 {
 	t_u64	start;
@@ -65,7 +58,6 @@ typedef struct s_db
 {
 	t_common	common;
 	t_i32		num;
-	t_statecode	state;
 	t_i32		eat_cnt;
 	t_u64		last_change;
 	t_u64		last_eat;
